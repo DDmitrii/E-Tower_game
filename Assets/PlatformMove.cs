@@ -92,7 +92,6 @@ public class PlatformMove : MonoBehaviour
  
     void Cut(float x, float z)
     {
-        //Debug.Log(x + "+" + z);
         if (!side)
         {
             float size_x = 0;
@@ -103,7 +102,6 @@ public class PlatformMove : MonoBehaviour
             if (x >= previous_x)
             {
                 size_x = right_down - left_up;
-                //Debug.Log(right_down + "=" + left_up);
             } else
             {
                 size_x = right_up - left_down;
@@ -133,7 +131,6 @@ public class PlatformMove : MonoBehaviour
         }
         if (side)
         {
-            Debug.Log(x + "+" + z);
             float size_z = 0;
             float right_down = previous_z + (prev_size_z / 2);
             float left_down = previous_z - (prev_size_z / 2);
@@ -142,12 +139,10 @@ public class PlatformMove : MonoBehaviour
             if (z >= previous_z)
             {
                 size_z = right_down - left_up;
-                Debug.Log(right_down + "=" + left_up);
             }
             else
             {
                 size_z = right_up - left_down;
-                Debug.Log(right_up + "=" + left_down);
             }
  
             if (size_z <= 0)
