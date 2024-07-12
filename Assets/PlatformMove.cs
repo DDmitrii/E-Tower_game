@@ -28,7 +28,7 @@ public class PlatformMove : MonoBehaviour
     public bool side = false; // переменная, отвечающая за сторону, из которой выезжает блок
     void Start()
     {
- 
+        
     }
     void Update()
     {
@@ -87,7 +87,6 @@ public class PlatformMove : MonoBehaviour
                 add_z = 1;
             }
         }
-        Debug.Log(x);
     }
  
     void Cut(float x, float z)
