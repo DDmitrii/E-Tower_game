@@ -10,13 +10,13 @@ public class PlatformMove : MonoBehaviour
     private float x = 2.5f; // позииция самого верхнего (движущегося) блока по х
     // координата x или z зависит от того, из какой стороны выезжает блок
     private float z = 2.5f; // позиция z самого верхнего (движущегося) блока по z
-    private float add_x = 2f; // скорость по x
+    private float add_x = 1f; // скорость по x
     public float prev_size_x = 1; // размер предыдущего блока по x
     public float prev_size_z = 1; // размер предыдущего блока по z
     public float previous_x = 0; // позиция предыдущего блока по x
     public float previous_z = 0; // позиция предыдущего блока по z
  
-    private float add_z = 2f; // скорость по z
+    private float add_z = 1f; // скорость по z
     public GameObject obj; // префаб объект
  
     public GameObject cube; // то, что останется после объекта 
@@ -26,9 +26,13 @@ public class PlatformMove : MonoBehaviour
     private bool click = false; // переменная, ответственная за клик мыши, который стопит подвижную платформу
  
     public bool side = false; // переменная, отвечающая за сторону, из которой выезжает блок
+
+    private ButtonController buttonController;
+
     void Start()
     {
- 
+        buttonController = FindObjectOfType<ButtonController>();
+        Debug.Log(buttonController.PlatformSpeedCoef);
     }
     void Update()
     {
@@ -63,8 +67,8 @@ public class PlatformMove : MonoBehaviour
     {
         if (!side)
         {
-            x += add_x * Time.deltaTime; // запоминаем координату х, движущейся платформы, чтобы применить ее в if
-            transform.position += new Vector3(add_x * Time.deltaTime, 0, 0); // покадровое перемещение движущейся платформы по оси х
+            x += add_x * buttonController.PlatformSpeedCoef * Time.deltaTime; // запоминаем координату х, движущейся платформы, чтобы применить ее в if
+            transform.position += new Vector3(add_x * buttonController.PlatformSpeedCoef * Time.deltaTime, 0, 0); // покадровое перемещение движущейся платформы по оси х
             if (x >= 2.3f)
             {
                 add_x = -1; // меняем направление платформы на противоположное
@@ -76,8 +80,8 @@ public class PlatformMove : MonoBehaviour
         }
         else
         {
-            z += add_z * Time.deltaTime; // то же самое только для платформы катающейся по оси z
-            transform.position += new Vector3(0, 0, add_z * Time.deltaTime);
+            z += add_z * buttonController.PlatformSpeedCoef * Time.deltaTime; // то же самое только для платформы катающейся по оси z
+            transform.position += new Vector3(0, 0, add_z * buttonController.PlatformSpeedCoef * Time.deltaTime);
             if (z >= 2.3f)
             {
                 add_z = -1; // меняем направление платформы на противоположное
@@ -87,7 +91,6 @@ public class PlatformMove : MonoBehaviour
                 add_z = 1;
             }
         }
-        Debug.Log(x);
     }
  
     void Cut(float x, float z)
