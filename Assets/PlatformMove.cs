@@ -42,7 +42,7 @@ public class PlatformMove : MonoBehaviour
             transform.position -= new Vector3(0, 0.2f, 0); // при нажатии мыши башня уходит ниже, чтобы оставаться всегда в кадре
             if (!click)
             {
-                Cut(x, z);
+                Cut(x, z); // Обрезаем блок до нужных размеров
                 click = true; // обозначаем, что с верхней платформой мы провели действие и больше она нам не нужна
                 if (!side)
                 {
@@ -94,27 +94,28 @@ public class PlatformMove : MonoBehaviour
     {
         if (!side)
         {
-            float size_x = 0;
-            float right_down = previous_x + (prev_size_x / 2);
-            float left_down = previous_x - (prev_size_x / 2);
-            float right_up = x + (prev_size_x / 2);
-            float left_up = x - (prev_size_x / 2);
+            float size_x; // новый размер блока по x
+            float right_down = previous_x + (prev_size_x / 2); // координата правого ребра предыдущего блока по x
+            float left_down = previous_x - (prev_size_x / 2); // координата левого ребра предыдущего блока по x
+            float right_up = x + (prev_size_x / 2); // координата правого ребра нового блока по x
+            float left_up = x - (prev_size_x / 2); // координата левого ребра нового блока по x
+            
+            // находим размер нового блока
             if (x >= previous_x)
             {
                 size_x = right_down - left_up;
             } else
             {
                 size_x = right_up - left_down;
-                //Debug.Log(right_up + "=" + left_down);
             }
  
-            //Debug.Log(size_x);
- 
+            // если размер блока < 0, то заканчиваем игру
             if (size_x <= 0)
             {
-                //закончить игру
+                // TO DO: закончить игру
             }
  
+            // находим позицию изменённого блока и записываем его как предыдущий
             if (x >= previous_x)
             {
                 previous_x += (prev_size_x - size_x) / 2;
@@ -124,18 +125,22 @@ public class PlatformMove : MonoBehaviour
                 previous_x -= (prev_size_x - size_x) / 2;
             }
  
+            // записываем размер нового блока как предыдущий
             prev_size_x = size_x;
  
+            // обновляем размер и позицию
             transform.localScale = new Vector3(prev_size_x, 0.2f, prev_size_z);
             transform.position = new Vector3(previous_x, 0, previous_z);
         }
         if (side)
         {
-            float size_z = 0;
-            float right_down = previous_z + (prev_size_z / 2);
-            float left_down = previous_z - (prev_size_z / 2);
-            float right_up = z + (prev_size_z / 2);
-            float left_up = z - (prev_size_z / 2);
+            float size_z; // новый размер блока по z
+            float right_down = previous_z + (prev_size_z / 2); // координата правого ребра предыдущего блока по z
+            float left_down = previous_z - (prev_size_z / 2); // координата левого ребра предыдущего блока по z
+            float right_up = z + (prev_size_z / 2); // координата правого ребра нового блока по z
+            float left_up = z - (prev_size_z / 2); // координата левого ребра нового блока по z
+ 
+            // находим размер нового блока
             if (z >= previous_z)
             {
                 size_z = right_down - left_up;
@@ -145,11 +150,13 @@ public class PlatformMove : MonoBehaviour
                 size_z = right_up - left_down;
             }
  
+            // если размер блока < 0, то заканчиваем игру
             if (size_z <= 0)
             {
-                //закончить игру
+                // TO DO: закончить игру
             }
  
+            // находим позицию изменённого блока и записываем его как предыдущий
             if (z >= previous_z)
             {
                 previous_z += (prev_size_z - size_z) / 2;
@@ -159,8 +166,10 @@ public class PlatformMove : MonoBehaviour
                 previous_z -= (prev_size_z - size_z) / 2;
             }
  
+            // записываем размер нового блока как предыдущий
             prev_size_z = size_z;
  
+            // обновляем размер и позицию
             transform.localScale = new Vector3(prev_size_x, 0.2f, prev_size_z);
             transform.position = new Vector3(previous_x, 0, previous_z);
         }
