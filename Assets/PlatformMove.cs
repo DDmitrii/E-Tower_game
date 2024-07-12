@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
+using System.Security.Cryptography.X509Certificates;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UIElements;
- 
+using TMPro;
+
 public class PlatformMove : MonoBehaviour
 {
     private float x = 2.5f; // позииция самого верхнего (движущегося) блока по х
@@ -15,17 +17,24 @@ public class PlatformMove : MonoBehaviour
     public float prev_size_z = 1; // размер предыдущего блока по z
     public float previous_x = 0; // позиция предыдущего блока по x
     public float previous_z = 0; // позиция предыдущего блока по z
- 
+
     private float add_z = 2f; // скорость по z
     public GameObject obj; // префаб объект
- 
+
     public GameObject cube; // то, что останется после объекта 
- 
+
     public GameObject obj1; // самая первая платформа, которая всегда на месте
- 
+
     private bool click = false; // переменная, ответственная за клик мыши, который стопит подвижную платформу
- 
+
     public bool side = false; // переменная, отвечающая за сторону, из которой выезжает блок
+
+    public static int score; // переменная отвечающая за счетчик
+    public static int row = 1; // количество идеально поставленных блоков
+    public static bool dif = false; // идеально ли поставлены или нет
+    [SerializeField] TextMeshProUGUI scoreText;
+
+
     void Start()
     {
  
@@ -56,6 +65,18 @@ public class PlatformMove : MonoBehaviour
                 }
                 obj1.transform.position -= new Vector3(0, 0.2f, 0); // опускаем самую первую платформу ниже вместе с остальными
             }
+          
+            if (dif)
+            { // если идеально поставлено то изменяем счетчик
+                row += 1;
+            }
+            else
+            {
+                row = 1;
+            }
+            score += row; // меняем счетчик
+            scoreText.text = score.ToString(); 
+            dif = false;
         }
     }
  
@@ -108,6 +129,10 @@ public class PlatformMove : MonoBehaviour
             {
                 size_x = right_up - left_down;
             }
+            if (size_x == previous_x)
+            {
+                dif = true;
+            }
  
             // если размер блока < 0, то заканчиваем игру
             if (size_x <= 0)
@@ -139,7 +164,7 @@ public class PlatformMove : MonoBehaviour
             float left_down = previous_z - (prev_size_z / 2); // координата левого ребра предыдущего блока по z
             float right_up = z + (prev_size_z / 2); // координата правого ребра нового блока по z
             float left_up = z - (prev_size_z / 2); // координата левого ребра нового блока по z
- 
+
             // находим размер нового блока
             if (z >= previous_z)
             {
@@ -148,6 +173,10 @@ public class PlatformMove : MonoBehaviour
             else
             {
                 size_z = right_up - left_down;
+            }
+            if (size_z == previous_z)
+            {
+                dif = true;
             }
  
             // если размер блока < 0, то заканчиваем игру
