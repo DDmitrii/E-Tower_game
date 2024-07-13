@@ -6,6 +6,7 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlatformMove : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class PlatformMove : MonoBehaviour
     public float prev_size_z = 1; // размер предыдущего блока по z
     public float previous_x = 0; // позиция предыдущего блока по x
     public float previous_z = 0; // позиция предыдущего блока по z
+
+    public GameObject RestartButton;
+    public bool end = false;
 
     private float add_z = 1f; // скорость по z
     public GameObject obj; // префаб объект
@@ -47,7 +51,7 @@ public class PlatformMove : MonoBehaviour
             ChangeDirection();
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !end)
         { // ЛКМ
             transform.position -= new Vector3(0, 0.2f, 0); // при нажатии мыши башня уходит ниже, чтобы оставаться всегда в кадре
             if (!click)
@@ -198,9 +202,11 @@ public class PlatformMove : MonoBehaviour
                 // если размер блока < 0, то заканчиваем игру
                 if (size_z <= 0)
                 {
-                    // TO DO: закончить игру
-                }
-                row = 1;
+                    RestartButton.SetActive(true);
+                    end = true;
+                    //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                } else {
+                    row = 1;
                 score += row;
                 scoreText.text = score.ToString(); 
                 // находим позицию изменённого блока и записываем его как предыдущий
@@ -230,7 +236,11 @@ public class PlatformMove : MonoBehaviour
                 Rigidbody cubeRigidBody = cube.AddComponent<Rigidbody>();
                 cubeRigidBody.useGravity = true;
                 Destroy(cube, destroyTime);
+                }
             }
         }
+    }
+    void RestartGame() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
