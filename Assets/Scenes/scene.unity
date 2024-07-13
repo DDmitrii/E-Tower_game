@@ -1240,6 +1240,7 @@ MonoBehaviour:
   side: 0
   row: 1
   scoreText: {fileID: 0}
+  PlatformCount: 1
 --- !u!1 &1106547228
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,7 +1275,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -282, y: -39}
+  m_AnchoredPosition: {x: -590, y: -39}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1106547230
