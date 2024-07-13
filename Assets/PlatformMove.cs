@@ -42,7 +42,6 @@ public class PlatformMove : MonoBehaviour
     void Start()
     {
         buttonController = FindObjectOfType<ButtonController>();
-        Debug.Log(buttonController.PlatformSpeedCoef);
     }
     void Update()
     {
@@ -136,9 +135,10 @@ public class PlatformMove : MonoBehaviour
                 // если размер блока < 0, то заканчиваем игру
                 if (size_x <= 0)
                 {
-                    // TO DO: закончить игру
-                }
-                row = 1;
+                    end = true;
+                    RestartButton.SetActive(true);
+                } else {
+                    row = 1;
                 score += row;
                 scoreText.text = score.ToString();
                 // находим позицию изменённого блока и записываем его как предыдущий
@@ -168,6 +168,7 @@ public class PlatformMove : MonoBehaviour
                 Rigidbody cubeRigidBody = cube.AddComponent<Rigidbody>();
                 cubeRigidBody.useGravity = true;
                 Destroy(cube, destroyTime);
+                }
             }
         }
         if (side)
@@ -204,7 +205,6 @@ public class PlatformMove : MonoBehaviour
                 {
                     RestartButton.SetActive(true);
                     end = true;
-                    //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 } else {
                     row = 1;
                 score += row;
