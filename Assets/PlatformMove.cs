@@ -38,10 +38,18 @@ public class PlatformMove : MonoBehaviour
     public TextMeshProUGUI scoreText;
 
     private ButtonController buttonController;
+    public int PlatformCount = 1;
+    private Color start_color = new Color(165f/255f, 214f/255f, 175f/255f);
+    private Color last_color = new Color(245f/255f, 145f/255f, 205f/255f);
+    private const int steps = 30;
 
-    void Start()
+    void Awake()
     {
         buttonController = FindObjectOfType<ButtonController>();
+        Renderer renderer1 = obj1.GetComponent<Renderer>();
+        renderer1.material.color = start_color;
+        Renderer renderer2 = obj.GetComponent<Renderer>();
+        renderer2.material.color = start_color;
     }
     void Update()
     {
@@ -57,15 +65,25 @@ public class PlatformMove : MonoBehaviour
             {
                 Cut(x, z); // Обрезаем блок до нужных размеров
                 click = true; // обозначаем, что с верхней платформой мы провели действие и больше она нам не нужна
+                PlatformCount++;
                 if (!side)
                 {
                     side = true;  // меняем сторону выезда следующей платформы
-                    Instantiate(obj, new Vector3(previous_x, 0.2f, 2.5f), Quaternion.identity); // спавним платформу
+                    GameObject newPlatform = Instantiate(obj, new Vector3(previous_x, 0.2f, 2.5f), Quaternion.identity); // спавним платформу
+                    float magic_const = (float)(PlatformCount % steps) / (float)(steps);
+                    Color col = Color.Lerp(start_color, last_color, magic_const);
+                    Renderer renderer = newPlatform.GetComponent<Renderer>();
+                    renderer.material.color = col;
+
                 }
                 else
                 {
                     side = false; // меняем сторону
-                    Instantiate(obj, new Vector3(2.5f, 0.2f, previous_z), Quaternion.identity); // спавним платформу
+                    GameObject newPlatform = Instantiate(obj, new Vector3(2.5f, 0.2f, previous_z), Quaternion.identity); // спавним платформу
+                    float magic_const = (float)(PlatformCount % steps) / (float)(steps);
+                    Color col = Color.Lerp(start_color, last_color, magic_const);
+                    Renderer renderer = newPlatform.GetComponent<Renderer>();
+                    renderer.material.color = col;
                 }
                 obj1.transform.position -= new Vector3(0, 0.2f, 0); // опускаем самую первую платформу ниже вместе с остальными
             }
