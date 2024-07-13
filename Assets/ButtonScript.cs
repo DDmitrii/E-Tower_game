@@ -9,7 +9,7 @@ public class ButtonScript : MonoBehaviour
     public GameObject MediumButton;
     public GameObject HardButton;
 
-    void Start()
+    void Update()
     {
         SetButtonSizes();
     }

@@ -20,7 +20,6 @@ public class ButtonController : MonoBehaviour
         PlatformSpeedCoef = 5.0f;
         PlayerPrefs.SetFloat("PlatformSpeed", PlatformSpeedCoef);
         RestartGame();
-        Debug.Log("Hard speed selected");
     }
 
     public void SetMediumSpeed()
@@ -28,7 +27,6 @@ public class ButtonController : MonoBehaviour
         PlatformSpeedCoef = 2.0f;
         PlayerPrefs.SetFloat("PlatformSpeed", PlatformSpeedCoef);
         RestartGame();
-        Debug.Log("Medium speed selected");
     }
 
     public void SetEasySpeed()
@@ -36,7 +34,6 @@ public class ButtonController : MonoBehaviour
         PlatformSpeedCoef = 1.0f;
         PlayerPrefs.SetFloat("PlatformSpeed", PlatformSpeedCoef);
         RestartGame();
-        Debug.Log("Easy speed selected");
     }
 
     private void RestartGame()

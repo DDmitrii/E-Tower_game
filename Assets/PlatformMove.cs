@@ -50,9 +50,9 @@ public class PlatformMove : MonoBehaviour
     {
         buttonController = FindObjectOfType<ButtonController>();
         Renderer renderer1 = obj1.GetComponent<Renderer>();
-        renderer1.material.color = start_color;
+        renderer1.sharedMaterial.color = start_color;
         Renderer renderer2 = obj.GetComponent<Renderer>();
-        renderer2.material.color = start_color;
+        renderer2.sharedMaterial.color = start_color;
     }
     void Update()
     {
@@ -78,7 +78,7 @@ public class PlatformMove : MonoBehaviour
                         float magic_const = (float)(PlatformCount % steps) / (float)(steps);
                         Color col = Color.Lerp(start_color, last_color, magic_const);
                         Renderer renderer = newPlatform.GetComponent<Renderer>();
-                        renderer.material.color = col;
+                        renderer.sharedMaterial.color = col;
 
                     }
                     else
@@ -88,7 +88,7 @@ public class PlatformMove : MonoBehaviour
                         float magic_const = (float)(PlatformCount % steps) / (float)(steps);
                         Color col = Color.Lerp(start_color, last_color, magic_const);
                         Renderer renderer = newPlatform.GetComponent<Renderer>();
-                        renderer.material.color = col;
+                        renderer.sharedMaterial.color = col;
                     }
                     obj1.transform.position -= new Vector3(0, 0.2f, 0); // опускаем самую первую платформу ниже вместе с остальными
                 }
@@ -197,7 +197,7 @@ public class PlatformMove : MonoBehaviour
                 float magic_const = (float)(PlatformCount % steps) / (float)(steps);
                 Color col = Color.Lerp(start_color, last_color, magic_const);
                 Renderer renderer = cube.GetComponent<Renderer>();
-                renderer.material.color = col;
+                renderer.sharedMaterial.color = col;
                 Destroy(cube, destroyTime);
                 }
             }
@@ -271,7 +271,7 @@ public class PlatformMove : MonoBehaviour
                 float magic_const = (float)(PlatformCount % steps) / (float)(steps);
                 Color col = Color.Lerp(start_color, last_color, magic_const);
                 Renderer renderer = cube.GetComponent<Renderer>();
-                renderer.material.color = col;
+                renderer.sharedMaterial.color = col;
                 Destroy(cube, destroyTime);
                 }
             }
