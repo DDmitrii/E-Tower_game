@@ -3,7 +3,12 @@ guid: ac32b72fcbb6644cb9cf71f0c2228fbc
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - RestartButton: {instanceID: 0}
+  - obj: {instanceID: 0}
+  - cube: {instanceID: 0}
+  - obj1: {instanceID: 0}
+  - scoreText: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

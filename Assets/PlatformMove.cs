@@ -19,7 +19,10 @@ public class PlatformMove : MonoBehaviour
     public float previous_x = 0; // позиция предыдущего блока по x
     public float previous_z = 0; // позиция предыдущего блока по z
 
-    public GameObject RestartButton;
+    
+    public GameObject EasyButton;
+    public GameObject MediumButton;
+    public GameObject HardButton;
     public bool end = false;
 
     private float add_z = 1f; // скорость по z
@@ -53,39 +56,42 @@ public class PlatformMove : MonoBehaviour
     }
     void Update()
     {
-        if (!click)
+        if (!end)
         {
-            ChangeDirection();
-        }
-
-        if (Input.GetMouseButtonDown(0) && !end)
-        { // ЛКМ
-            transform.position -= new Vector3(0, 0.2f, 0); // при нажатии мыши башня уходит ниже, чтобы оставаться всегда в кадре
             if (!click)
             {
-                Cut(x, z); // Обрезаем блок до нужных размеров
-                click = true; // обозначаем, что с верхней платформой мы провели действие и больше она нам не нужна
-                PlatformCount++;
-                if (!side)
-                {
-                    side = true;  // меняем сторону выезда следующей платформы
-                    GameObject newPlatform = Instantiate(obj, new Vector3(previous_x, 0.2f, 2.5f), Quaternion.identity); // спавним платформу
-                    float magic_const = (float)(PlatformCount % steps) / (float)(steps);
-                    Color col = Color.Lerp(start_color, last_color, magic_const);
-                    Renderer renderer = newPlatform.GetComponent<Renderer>();
-                    renderer.material.color = col;
+                ChangeDirection();
+            }
 
-                }
-                else
+            if (Input.GetMouseButtonDown(0))
+            { // ЛКМ
+                transform.position -= new Vector3(0, 0.2f, 0); // при нажатии мыши башня уходит ниже, чтобы оставаться всегда в кадре
+                if (!click)
                 {
-                    side = false; // меняем сторону
-                    GameObject newPlatform = Instantiate(obj, new Vector3(2.5f, 0.2f, previous_z), Quaternion.identity); // спавним платформу
-                    float magic_const = (float)(PlatformCount % steps) / (float)(steps);
-                    Color col = Color.Lerp(start_color, last_color, magic_const);
-                    Renderer renderer = newPlatform.GetComponent<Renderer>();
-                    renderer.material.color = col;
+                    Cut(x, z); // Обрезаем блок до нужных размеров
+                    click = true; // обозначаем, что с верхней платформой мы провели действие и больше она нам не нужна
+                    PlatformCount++;
+                    if (!side)
+                    {
+                        side = true;  // меняем сторону выезда следующей платформы
+                        GameObject newPlatform = Instantiate(obj, new Vector3(previous_x, 0.2f, 2.5f), Quaternion.identity); // спавним платформу
+                        float magic_const = (float)(PlatformCount % steps) / (float)(steps);
+                        Color col = Color.Lerp(start_color, last_color, magic_const);
+                        Renderer renderer = newPlatform.GetComponent<Renderer>();
+                        renderer.material.color = col;
+
+                    }
+                    else
+                    {
+                        side = false; // меняем сторону
+                        GameObject newPlatform = Instantiate(obj, new Vector3(2.5f, 0.2f, previous_z), Quaternion.identity); // спавним платформу
+                        float magic_const = (float)(PlatformCount % steps) / (float)(steps);
+                        Color col = Color.Lerp(start_color, last_color, magic_const);
+                        Renderer renderer = newPlatform.GetComponent<Renderer>();
+                        renderer.material.color = col;
+                    }
+                    obj1.transform.position -= new Vector3(0, 0.2f, 0); // опускаем самую первую платформу ниже вместе с остальными
                 }
-                obj1.transform.position -= new Vector3(0, 0.2f, 0); // опускаем самую первую платформу ниже вместе с остальными
             }
         }
     }
@@ -145,7 +151,7 @@ public class PlatformMove : MonoBehaviour
             {
                 row += 1;
                 score += row;
-                scoreText.text = score.ToString();
+                scoreText.text = "Score: " + score.ToString();
                 transform.position = new Vector3(previous_x, 0, previous_z);
             } else
             {
@@ -154,13 +160,16 @@ public class PlatformMove : MonoBehaviour
                 if (size_x <= 0)
                 {
                     end = true;
-                    RestartButton.SetActive(true);
+                    EasyButton.SetActive(true);
+                    MediumButton.SetActive(true);
+                    HardButton.SetActive(true);
+
                 } else {
                     row = 1;
                 score += row;
-                scoreText.text = score.ToString();
-                // находим позицию изменённого блока и записываем его как предыдущий
-                if (x >= previous_x)
+                    scoreText.text = "Score: " + score.ToString();
+                    // находим позицию изменённого блока и записываем его как предыдущий
+                    if (x >= previous_x)
                 {
                     previous_x += (prev_size_x - size_x) / 2;
                     second_x = previous_x + prev_size_x / 2;
@@ -185,6 +194,10 @@ public class PlatformMove : MonoBehaviour
                 cube.transform.position = new Vector3(second_x, 0, previous_z);
                 Rigidbody cubeRigidBody = cube.AddComponent<Rigidbody>();
                 cubeRigidBody.useGravity = true;
+                float magic_const = (float)(PlatformCount % steps) / (float)(steps);
+                Color col = Color.Lerp(start_color, last_color, magic_const);
+                Renderer renderer = cube.GetComponent<Renderer>();
+                renderer.material.color = col;
                 Destroy(cube, destroyTime);
                 }
             }
@@ -212,7 +225,7 @@ public class PlatformMove : MonoBehaviour
             {
                 row += 1;
                 score += row;
-                scoreText.text = score.ToString();
+                scoreText.text = "Score: " + score.ToString();
                 transform.position = new Vector3(previous_x, 0, previous_z);
             }
             else
@@ -221,14 +234,16 @@ public class PlatformMove : MonoBehaviour
                 // если размер блока < 0, то заканчиваем игру
                 if (size_z <= 0)
                 {
-                    RestartButton.SetActive(true);
                     end = true;
+                    EasyButton.SetActive(true);
+                    MediumButton.SetActive(true);
+                    HardButton.SetActive(true);
                 } else {
                     row = 1;
                 score += row;
-                scoreText.text = score.ToString(); 
-                // находим позицию изменённого блока и записываем его как предыдущий
-                if (z >= previous_z)
+                    scoreText.text = "Score: " + score.ToString();
+                    // находим позицию изменённого блока и записываем его как предыдущий
+                    if (z >= previous_z)
                 {
                     previous_z += (prev_size_z - size_z) / 2;
                     second_z = previous_z + prev_size_z / 2;
@@ -253,6 +268,10 @@ public class PlatformMove : MonoBehaviour
                 cube.transform.position = new Vector3(previous_x, 0, second_z);
                 Rigidbody cubeRigidBody = cube.AddComponent<Rigidbody>();
                 cubeRigidBody.useGravity = true;
+                float magic_const = (float)(PlatformCount % steps) / (float)(steps);
+                Color col = Color.Lerp(start_color, last_color, magic_const);
+                Renderer renderer = cube.GetComponent<Renderer>();
+                renderer.material.color = col;
                 Destroy(cube, destroyTime);
                 }
             }
