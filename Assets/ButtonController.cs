@@ -41,6 +41,7 @@ public class ButtonController : MonoBehaviour
 
     private void RestartGame()
     {
+        PlatformMove.score = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
