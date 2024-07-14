@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
 using System.Security.Cryptography.X509Certificates;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
@@ -151,7 +150,7 @@ public class PlatformMove : MonoBehaviour
             {
                 row += 1;
                 score += row;
-                scoreText.text = "Score: " + score.ToString();
+                scoreText.text = "Счёт: " + score.ToString();
                 transform.position = new Vector3(previous_x, 0, previous_z);
             } else
             {
@@ -163,11 +162,12 @@ public class PlatformMove : MonoBehaviour
                     EasyButton.SetActive(true);
                     MediumButton.SetActive(true);
                     HardButton.SetActive(true);
+                    scoreText.enabled = false;
 
                 } else {
                     row = 1;
                 score += row;
-                    scoreText.text = "Score: " + score.ToString();
+                    scoreText.text = "Счёт: " + score.ToString();
                     // находим позицию изменённого блока и записываем его как предыдущий
                     if (x >= previous_x)
                 {
@@ -225,7 +225,7 @@ public class PlatformMove : MonoBehaviour
             {
                 row += 1;
                 score += row;
-                scoreText.text = "Score: " + score.ToString();
+                scoreText.text = "Счёт: " + score.ToString();
                 transform.position = new Vector3(previous_x, 0, previous_z);
             }
             else
@@ -238,10 +238,11 @@ public class PlatformMove : MonoBehaviour
                     EasyButton.SetActive(true);
                     MediumButton.SetActive(true);
                     HardButton.SetActive(true);
+                    scoreText.enabled = false;
                 } else {
                     row = 1;
                 score += row;
-                    scoreText.text = "Score: " + score.ToString();
+                    scoreText.text = "Счёт: " + score.ToString();
                     // находим позицию изменённого блока и записываем его как предыдущий
                     if (z >= previous_z)
                 {
